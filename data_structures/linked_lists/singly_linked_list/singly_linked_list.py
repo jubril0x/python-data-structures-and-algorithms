@@ -78,3 +78,71 @@ class SinglyLinkedList:
         newNode.next = current
 
         self.size += 1
+
+    def removeFirst(self):
+        if self.head is None:
+            raise IndexError("cannot remove from an empty list")
+
+        nodeToRemove = self.head
+
+        if self.head.next is None:
+            self.head = self.tail = None
+            self.size = 0
+            return nodeToRemove.element
+
+        self.head = self.head.next
+
+        self.size -= 1
+
+        return nodeToRemove.element
+
+    def removeLast(self):
+        if self.head is None:
+            raise IndexError("Cannot remove from an empty list")
+
+        nodeToRemove = self.tail
+
+        if self.head.next is None:
+            self.head = self.tail = None
+            self.size = 0
+            return nodeToRemove.element
+
+        prev = None
+        current = self.head
+
+        while current.next is not None:
+            prev = current
+            current = current.next
+
+        prev.next = None
+        self.tail = prev
+
+        self.size -= 1
+
+        return nodeToRemove.element
+
+
+    def removeAtPosition(self, position):
+        if position < 1 or position > self.size:
+            raise IndexError("Invalid position")
+
+        if position == 1:
+            return self.removeFirst()
+
+        if position == self.size:
+            return self.removeLast()
+
+        index = 1
+        prev = None
+        current = self.head
+
+        while index != position:
+            index += 1
+            prev = current
+            current = current.next
+
+        prev.next = current.next
+
+        self.size -= 1
+
+        return current.element
